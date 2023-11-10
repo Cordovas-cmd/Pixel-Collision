@@ -8,7 +8,7 @@ let gameScene = new Phaser.Scene('Game');
 gameScene.preload = function() {
     // Load Images (can be named anything)
     this.load.image('background', './assets/sprites/background.png')
-    this.load.image('player', './assets/sprites/player.png')
+    this.load.image('player', './assets/sprites/Illidian-Idle(2).png')
 };
 
 
@@ -25,6 +25,10 @@ gameScene.create = function() {
         
         let canvasW = this.sys.game.config.width; 
         let canvasH = this.sys.game.config.height; 
+
+
+
+        let player = this.add.sprite(70, 180, 'player');
         console.log(canvasW, canvasH)
 
         console.log(bg)
