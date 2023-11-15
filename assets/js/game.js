@@ -54,11 +54,37 @@ gameScene.create = function () {
 
 
     // Create enemy sprite
-    let enemy1 = this.add.sprite(250,180, 'drake')
+    // let enemy1 = this.add.sprite(250,180, 'drake')
 
+    this.enemy1 = this.add.sprite(250,180, 'drake')
+    
+    
     // scales the enemy just a diff way to do it
-    enemy1.scaleX = 2;
-    enemy1.scaleY = 2;
+    // enemy1.scaleX = 2;
+    // enemy1.scaleY = 2;
+
+    this.enemy1.scaleX = 2;
+    this.enemy1.scaleY = 2;
+    
+    // set sprite angle methods
+    // enemy1.angle = 45
+    // enemy1.setAngle = 45
+
+
+    // this.enemy1.angle(45);
+    this.enemy1.setAngle(45);
+
+    
+    // use radius for rotation. Rotation based on origin. 
+    
+    // moves the origin and thus the rotation point.
+    // enemy1.setOrigin(0,0);
+
+
+    // Math.PI /4 same as 45 degrees.
+    // enemy1.rotation = Math.PI 
+    enemy1.setRotation(Math.PI / 4);
+
 
     // create second enemy
     let enemy2  = this.add.sprite(450,180, 'drake');
@@ -67,6 +93,15 @@ gameScene.create = function () {
     // enemy2.displayWidth = 200;
     console.log(this)
 };
+
+// create update method. up to 60 times per second.
+
+gameScene.update = function(){
+
+}
+
+
+
 // Set the config of game
 let config = {
     type: Phaser.AUTO, //phaser will use WebGL (first option) or Canvas (second option)
