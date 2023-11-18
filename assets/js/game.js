@@ -112,3 +112,11 @@ let config = {
 
 // create a new game, pass config
 let game = new Phaser.Game(config);
+
+
+
+
+// next will add moving enemies and keybindings
+
+// possible animation
+
