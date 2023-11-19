@@ -120,3 +120,6 @@ let game = new Phaser.Game(config);
 
 // possible animation
 
+// working on second level after this first one is done
+
+// Need to work on more assets
