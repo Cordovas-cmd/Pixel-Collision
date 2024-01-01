@@ -56,6 +56,8 @@ gameScene.create = function () {
     // Create enemy sprite
     // let enemy1 = this.add.sprite(250,180, 'drake')
 
+
+    // declare is this.enemy1 instead of let so we can access them in the game scene.
     this.enemy1 = this.add.sprite(250,180, 'drake')
     
     
@@ -82,12 +84,13 @@ gameScene.create = function () {
 
 
     // Math.PI /4 same as 45 degrees.
-    // enemy1.rotation = Math.PI 
-    enemy1.setRotation(Math.PI / 4);
+    this.enemy1.rotation = Math.PI
+    this.enemy1.setRotation(Math.PI / 4);
 
 
     // create second enemy
-    let enemy2  = this.add.sprite(450,180, 'drake');
+    // let enemy2  = this.add.sprite(450,180, 'drake');
+    this.enemy2  = this.add.sprite(450,180, 'drake');
 
     // another method of resizing a sprite
     // enemy2.displayWidth = 200;
@@ -97,7 +100,25 @@ gameScene.create = function () {
 // create update method. up to 60 times per second.
 
 gameScene.update = function(){
+    // moves the sprite along the x axis by 1 every second
+// this.enemy1.x += 1;
 
+this.enemy1.angle += 1;
+if(this.enemy2.y >= 180 && this.enemy2.y <= 300){
+    this.enemy2.y += .5;
+}
+// else if(this.enemy2.y >= 299){
+//     this.enemy2.y += -.5;
+// }
+// this.enemy2.y += -.5;
+console.log(this.enemy2.y)
+
+
+
+// wan't able to toggle direction based on enemy2 y , will revisit.
+// if(this.enemy2.y >= 300){
+//     this.enemy2.y += -1;
+// }
 }
 
 
