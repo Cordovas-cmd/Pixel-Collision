@@ -115,7 +115,7 @@ console.log(this.enemy2.y)
 
 
 
-// wan't able to toggle direction based on enemy2 y , will revisit.
+// wan't able to toggle direction based on enemy2 y
 // if(this.enemy2.y >= 300){
 //     this.enemy2.y += -1;
 // }
