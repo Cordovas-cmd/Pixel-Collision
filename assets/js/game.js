@@ -39,18 +39,22 @@ gameScene.create = function () {
 
 
     // Create a player sprite.
-    let player = this.add.sprite(70, 180, 'player');
+    // let player = this.add.sprite(70, 180, 'player');
+
+
+    this.player = this.add.sprite(70, 180, 'player');
 
 
     // Multiply the size of the player sprite by 2 can also be setScale(2) as a shorthand 
-    player.setScale(2, 2);
+    // player.setScale(2, 2);
+    this.player.setScale(2, 2);
 
 
     // flip the sprite across x
     // player.flipX = true;
     // flip the sprite across y
     // player.flipY = true;
-    console.log(player)
+    console.log(this.player)
 
 
     // Create enemy sprite
@@ -100,6 +104,16 @@ gameScene.create = function () {
 // create update method. up to 60 times per second.
 
 gameScene.update = function(){
+
+// check if we've reached scale limit
+if(this.player.scaleX <= 3){   
+    // make player grow test
+    this.player.scaleX += 0.01;
+    this.player.scaleY += 0.01;
+}
+
+
+
     // moves the sprite along the x axis by 1 every second
 // this.enemy1.x += 1;
 
@@ -111,7 +125,7 @@ if(this.enemy2.y >= 180 && this.enemy2.y <= 300){
 //     this.enemy2.y += -.5;
 // }
 // this.enemy2.y += -.5;
-console.log(this.enemy2.y)
+// console.log(this.enemy2.y)
 
 
 
