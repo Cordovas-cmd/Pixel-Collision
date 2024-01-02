@@ -3,6 +3,11 @@
 let gameScene = new Phaser.Scene('Game');
 
 
+// initiate scene parameters
+gameScene.init = function() {
+    this.playerSpeed = 3;
+}
+
 
 // Load assets
 gameScene.preload = function () {
@@ -10,6 +15,7 @@ gameScene.preload = function () {
     this.load.image('background', './assets/sprites/background.png')
     this.load.image('player', './assets/sprites/Illidian-Idle(2).png')
     this.load.image('drake', './assets/sprites/AdultRedDragon.png')
+    this.load.image('goal', './assets/sprites/treasure.png')
 };
 
 
@@ -39,18 +45,27 @@ gameScene.create = function () {
 
 
     // Create a player sprite.
-    let player = this.add.sprite(70, 180, 'player');
+    // let player = this.add.sprite(70, 180, 'player');
+    this.player = this.add.sprite(70, this.sys.game.config.height/2, 'player');
 
 
     // Multiply the size of the player sprite by 2 can also be setScale(2) as a shorthand 
-    player.setScale(2, 2);
+    // player.setScale(2, 2);
+    this.player.setScale(2, 2);
 
+
+
+    // Create treasure sprite
+    this.goal = this.add.sprite(this.sys.game.config.width-80, this.sys.game.config.height / 2, 'goal')
+    // set scale of treasure
+    this.goal.setScale(0.6);
 
     // flip the sprite across x
     // player.flipX = true;
     // flip the sprite across y
     // player.flipY = true;
-    console.log(player)
+    // console.log(player)
+    console.log(this.player)
 
     console.log(this)
 };
@@ -59,6 +74,12 @@ gameScene.create = function () {
 
 gameScene.update = function(){
 
+
+    // check user input
+    if(this.input.activePointer.isDown) {
+        // player sprite moves
+        this.player.x += this.playerSpeed
+    }
 }
 
 
