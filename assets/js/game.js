@@ -5,7 +5,17 @@ let gameScene = new Phaser.Scene('Game');
 
 // initiate scene parameters
 gameScene.init = function() {
+
+    // player speed
     this.playerSpeed = 3;
+
+    // enemy speed
+    this.enemySpeed = 1;
+
+
+    // game boundaries
+    this.enemyMinY = 80;
+    this.enemyMaxY = 280;
 }
 
 
@@ -51,7 +61,7 @@ gameScene.create = function () {
 
     // Multiply the size of the player sprite by 2 can also be setScale(2) as a shorthand 
     // player.setScale(2, 2);
-    this.player.setScale(2, 2);
+    this.player.setScale(1.5, 1.5);
 
 
 
@@ -59,6 +69,10 @@ gameScene.create = function () {
     this.goal = this.add.sprite(this.sys.game.config.width-80, this.sys.game.config.height / 2, 'goal')
     // set scale of treasure
     this.goal.setScale(0.6);
+
+
+
+    this.enemy = this.add.sprite(200, this.sys.game.config.height / 2, 'drake' )
 
     // flip the sprite across x
     // player.flipX = true;
@@ -81,8 +95,6 @@ gameScene.update = function(){
         this.player.x += this.playerSpeed
     }
 
-
-
     // check for collision with the player and the treasure chest.
     let playerRect = this.player.getBounds();
     let treasureRect = this.goal.getBounds();
@@ -92,6 +104,21 @@ gameScene.update = function(){
         console.log('reached goal!')
         this.scene.restart();
         return;
+    }
+
+    // enemy movement
+    this.enemy.y +=  this.enemySpeed;
+
+
+    
+    // check if we haven't passed min Y add the first param to avoid getting stuck
+    if( this.enemySpeed < 0 && this.enemy.y <= this.enemyMinY){
+        this.enemySpeed *=-1;
+    }
+
+    // check if we haven't passed max Y
+    if(this.enemySpeed > 0 && this.enemy.y >= this.enemyMaxY){
+        this.enemySpeed *=-1;
     }
 }
 
