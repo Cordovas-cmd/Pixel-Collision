@@ -13,7 +13,7 @@ gameScene.init = function() {
 gameScene.preload = function () {
     // Load Images (can be named anything)
     this.load.image('background', './assets/sprites/background.png')
-    this.load.image('player', './assets/sprites/Illidian-Idle(2).png')
+    this.load.image('player', './assets/sprites/Illidian-Idle(3).png')
     this.load.image('drake', './assets/sprites/AdultRedDragon.png')
     this.load.image('goal', './assets/sprites/treasure.png')
 };
@@ -79,6 +79,19 @@ gameScene.update = function(){
     if(this.input.activePointer.isDown) {
         // player sprite moves
         this.player.x += this.playerSpeed
+    }
+
+
+
+    // check for collision with the player and the treasure chest.
+    let playerRect = this.player.getBounds();
+    let treasureRect = this.goal.getBounds();
+    // console.log(playerRect)
+
+    if(Phaser.Geom.Intersects.RectangleToRectangle(playerRect,treasureRect)){
+        console.log('reached goal!')
+        this.scene.restart();
+        return;
     }
 }
 
