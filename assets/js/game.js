@@ -109,17 +109,15 @@ gameScene.update = function(){
     // enemy movement
     this.enemy.y +=  this.enemySpeed;
 
+    let conditionUp = this.enemySpeed < 0 && this.enemy.y <= this.enemyMinY;
 
+    let conditionDown = this.enemySpeed > 0 && this.enemy.y >= this.enemyMaxY;
     
-    // check if we haven't passed min Y add the first param to avoid getting stuck
-    if( this.enemySpeed < 0 && this.enemy.y <= this.enemyMinY){
+    // check if we haven't passed min Y || max Y add the first param to avoid getting stuck
+    if(conditionUp || conditionDown){
         this.enemySpeed *=-1;
     }
 
-    // check if we haven't passed max Y
-    if(this.enemySpeed > 0 && this.enemy.y >= this.enemyMaxY){
-        this.enemySpeed *=-1;
-    }
 }
 
 
