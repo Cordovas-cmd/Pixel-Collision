@@ -10,7 +10,9 @@ gameScene.init = function() {
     this.playerSpeed = 3;
 
     // enemy speed
-    this.enemySpeed = 1;
+    // this.enemySpeed = 1.2;
+    this.enemyMinSpeed = .9;
+    this.enemyMaxSpeed = 1.8;
 
 
     // game boundaries
@@ -54,7 +56,7 @@ gameScene.create = function () {
     let canvasH = this.sys.game.config.height;
 
 
-    // Create a player sprite.
+    // Create a player sprite.-------------------------------
     // let player = this.add.sprite(70, 180, 'player');
     this.player = this.add.sprite(70, this.sys.game.config.height/2, 'player');
 
@@ -65,20 +67,29 @@ gameScene.create = function () {
 
 
 
-    // Create treasure sprite
+    // Create treasure sprite----------------------------------------------
     this.goal = this.add.sprite(this.sys.game.config.width-80, this.sys.game.config.height / 2, 'goal')
     // set scale of treasure
     this.goal.setScale(0.6);
 
 
-
+// Create Enemy Sprite------------------------
     this.enemy = this.add.sprite(200, this.sys.game.config.height / 2, 'drake' )
 
-    // flip the sprite across x
-    // player.flipX = true;
-    // flip the sprite across y
-    // player.flipY = true;
-    // console.log(player)
+    /* flip the sprite across x
+    player.flipX = true;
+     flip the sprite across y
+     player.flipY = true;
+     console.log(player) */
+
+
+    // Set enemy speed
+    // 50/50 chance depending on number will be up or down
+    let dir = Math.random() < 0.5 ? 1 : -1;
+
+    // speed calculation                                
+    let speed= this.enemyMinSpeed + Math.random() * (this.enemyMaxSpeed - this.enemyMinSpeed);
+    this.enemy.speed = dir * speed
     console.log(this.player)
 
     console.log(this)
@@ -107,15 +118,15 @@ gameScene.update = function(){
     }
 
     // enemy movement
-    this.enemy.y +=  this.enemySpeed;
+    this.enemy.y +=  this.enemy.speed;
 
-    let conditionUp = this.enemySpeed < 0 && this.enemy.y <= this.enemyMinY;
+    let conditionUp = this.enemy.speed < 0 && this.enemy.y <= this.enemyMinY;
 
-    let conditionDown = this.enemySpeed > 0 && this.enemy.y >= this.enemyMaxY;
+    let conditionDown = this.enemy.speed > 0 && this.enemy.y >= this.enemyMaxY;
     
     // check if we haven't passed min Y || max Y add the first param to avoid getting stuck
     if(conditionUp || conditionDown){
-        this.enemySpeed *=-1;
+        this.enemy.speed *=-1;
     }
 
 }
