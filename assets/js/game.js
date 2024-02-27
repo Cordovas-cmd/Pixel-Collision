@@ -72,9 +72,48 @@ gameScene.create = function () {
     // set scale of treasure
     this.goal.setScale(0.6);
 
+    
+    // Create Enemy Sprite------------------------
+    
+    // Group of enemy sprites can create multiple at once
+    this.enemies = this.add.group({
+        key: 'drake',
+        repeat: 4,
+        setXY: {
+            // set initial positions
+            x: 134,
+            y: 100,
+            // set the space between each
+            stepX: 85,
+            stepY: 20
+        }
+    });
+    // this.enemy = this.add.sprite(200, this.sys.game.config.height / 2, 'drake' )
+    
+    
+    // // easy way to add enemy sprite to this.enemies group
+    // this.enemies.add(this.enemy);
 
-// Create Enemy Sprite------------------------
-    this.enemy = this.add.sprite(200, this.sys.game.config.height / 2, 'drake' )
+    // A way to set the scale of all of a group of enemies
+    Phaser.Actions.ScaleXY(this.enemies.getChildren(), -0.4, -0.4)
+
+
+    // set speed of all sprites in group through essentially a for loop
+
+    Phaser.Actions.Call(this.enemies.getChildren(), function(enemy) {
+        // if I wanted to flip
+        // enemy.flipX = true;
+        
+           // 50/50 chance depending on number will be up or down
+    let dir = Math.random() < 0.5 ? 1 : -1;
+        // set the speed
+        let speed= this.enemyMinSpeed + Math.random() * (this.enemyMaxSpeed - this.enemyMinSpeed);
+        enemy.speed = dir * speed
+
+    }, this)
+
+    // gets an array of all the sprite elemtns
+    // console.log(this.enemies.getChildren())
 
     /* flip the sprite across x
     player.flipX = true;
@@ -85,14 +124,14 @@ gameScene.create = function () {
 
     // Set enemy speed
     // 50/50 chance depending on number will be up or down
-    let dir = Math.random() < 0.5 ? 1 : -1;
+    // let dir = Math.random() < 0.5 ? 1 : -1;
 
     // speed calculation                                
-    let speed= this.enemyMinSpeed + Math.random() * (this.enemyMaxSpeed - this.enemyMinSpeed);
-    this.enemy.speed = dir * speed
-    console.log(this.player)
+    // let speed= this.enemyMinSpeed + Math.random() * (this.enemyMaxSpeed - this.enemyMinSpeed);
+    // this.enemy.speed = dir * speed
+    // console.log(this.player)
 
-    console.log(this)
+    // console.log(this)
 };
 
 // create update method. up to 60 times per second.
@@ -114,20 +153,43 @@ gameScene.update = function(){
     if(Phaser.Geom.Intersects.RectangleToRectangle(playerRect,treasureRect)){
         console.log('reached goal!')
         this.scene.restart();
+        // this.scene.manager.bootScene(this);
         return;
     }
 
-    // enemy movement
-    this.enemy.y +=  this.enemy.speed;
 
-    let conditionUp = this.enemy.speed < 0 && this.enemy.y <= this.enemyMinY;
+    // get enemies
+    let enemies = this.enemies.getChildren();
+    let numEnemies = enemies.length;
 
-    let conditionDown = this.enemy.speed > 0 && this.enemy.y >= this.enemyMaxY;
+    for(var i= 0; i < numEnemies; i++){
+         // enemy movement
+    enemies[i].y +=  enemies[i].speed;
+
+    let conditionUp = enemies[i].speed < 0 && enemies[i].y <= this.enemyMinY;
+
+    let conditionDown = enemies[i].speed > 0 && enemies[i].y >= this.enemyMaxY;
     
     // check if we haven't passed min Y || max Y add the first param to avoid getting stuck
     if(conditionUp || conditionDown){
-        this.enemy.speed *=-1;
+        enemies[i].speed *=-1;
     }
+
+
+      
+    }
+
+    // enemy movement
+    // this.enemy.y +=  this.enemy.speed;
+
+    // let conditionUp = this.enemy.speed < 0 && this.enemy.y <= this.enemyMinY;
+
+    // let conditionDown = this.enemy.speed > 0 && this.enemy.y >= this.enemyMaxY;
+    
+    // // check if we haven't passed min Y || max Y add the first param to avoid getting stuck
+    // if(conditionUp || conditionDown){
+    //     this.enemy.speed *=-1;
+    // }
 
 }
 
