@@ -161,7 +161,7 @@ gameScene.update = function(){
     // get enemies
     let enemies = this.enemies.getChildren();
     let numEnemies = enemies.length;
-
+    // let playerRect = this.player.getBounds();
     for(var i= 0; i < numEnemies; i++){
          // enemy movement
     enemies[i].y +=  enemies[i].speed;
@@ -176,7 +176,18 @@ gameScene.update = function(){
     }
 
 
+       // check for collision with the player and the drakes.
       
+       let enemyRect = enemies[i].getBounds();
+       // console.log(playerRect)
+   
+       if(Phaser.Geom.Intersects.RectangleToRectangle(playerRect,enemyRect)){
+           console.log('Game Over!!')
+           this.scene.restart();
+           // this.scene.manager.bootScene(this);
+           return;
+       }
+   
     }
 
     // enemy movement
