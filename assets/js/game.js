@@ -18,6 +18,9 @@ gameScene.init = function() {
     // game boundaries
     this.enemyMinY = 80;
     this.enemyMaxY = 280;
+
+    // not terminating
+    this.isTerminating = false;
 }
 
 
@@ -78,14 +81,14 @@ gameScene.create = function () {
     // Group of enemy sprites can create multiple at once
     this.enemies = this.add.group({
         key: 'drake',
-        repeat: 4,
+        repeat: 3,
         setXY: {
             // set initial positions
             x: 134,
             y: 100,
             // set the space between each
-            stepX: 85,
-            stepY: 20
+            stepX: 120,
+            stepY: 50
         }
     });
     // this.enemy = this.add.sprite(200, this.sys.game.config.height / 2, 'drake' )
@@ -138,6 +141,8 @@ gameScene.create = function () {
 
 gameScene.update = function(){
 
+    // don't execute if we are terminating;
+    if(this.isTerminating) return;
 
     // check user input
     if(this.input.activePointer.isDown) {
@@ -152,16 +157,15 @@ gameScene.update = function(){
 
     if(Phaser.Geom.Intersects.RectangleToRectangle(playerRect,treasureRect)){
         console.log('reached goal!')
-        this.scene.restart();
-        // this.scene.manager.bootScene(this);
-        return;
+        this.gameOver();
+           return;
     }
 
 
     // get enemies
     let enemies = this.enemies.getChildren();
     let numEnemies = enemies.length;
-
+    // let playerRect = this.player.getBounds();
     for(var i= 0; i < numEnemies; i++){
          // enemy movement
     enemies[i].y +=  enemies[i].speed;
@@ -176,7 +180,17 @@ gameScene.update = function(){
     }
 
 
+       // check for collision with the player and the drakes.
       
+       let enemyRect = enemies[i].getBounds();
+       // console.log(playerRect)
+   
+       if(Phaser.Geom.Intersects.RectangleToRectangle(playerRect,enemyRect)){
+           console.log('Game Over!!')
+           this.gameOver();
+           return;
+       }
+   
     }
 
     // enemy movement
@@ -193,6 +207,37 @@ gameScene.update = function(){
 
 }
 
+
+gameScene.gameOver = function(){
+    
+
+    // in order to only run once initiate game over sequence
+    this.isTerminating = true
+
+    // access main camera object ( https://github.com/phaserjs/phaser/blob/master/src/cameras/2d/Camera.js ) to learn more
+
+
+    // shake camera
+    this.cameras.main.shake(500);
+
+
+    // listen for event completion
+    this.cameras.main.on('camerashakecomplete', function(camera, effect){
+            
+        // fade out event
+        this.cameras.main.fade(500);
+    }, this);
+
+
+    // listen for fade out completion
+    this.cameras.main.on('camerafadeoutcomplete', function(camera,effect) {
+        // finally restart the scene
+        this.scene.restart();
+    },this)
+   
+
+
+}
 
 
 // Set the config of game
